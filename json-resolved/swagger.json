@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "Klatz Admin API",
-    "description" : "Klatz admin panel API specification and documentation.\nManaged via github.com repository\n",
+    "description" : "Klatz admin panel API specification and documentation.\nJSON API specification can be found at https://jsonapi.org/format/\n",
     "contact" : {
       "name" : "Development team",
       "email" : "dev.team@klatz.me"
@@ -189,10 +189,6 @@
       "inline_response_201" : {
         "type" : "object",
         "properties" : {
-          "status" : {
-            "type" : "string",
-            "enum" : [ "success" ]
-          },
           "token" : {
             "type" : "string",
             "example" : "d290f1ee.6c544b0190e6.d701748f0851"
@@ -206,13 +202,14 @@
       "inline_response_400" : {
         "type" : "object",
         "properties" : {
-          "status" : {
-            "type" : "string",
-            "enum" : [ "error" ]
-          },
           "message" : {
             "type" : "string",
             "example" : "paramname is required"
+          },
+          "code" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "example" : 100
           }
         }
       },
@@ -241,10 +238,6 @@
             "schema" : {
               "type" : "object",
               "properties" : {
-                "status" : {
-                  "type" : "string",
-                  "enum" : [ "success" ]
-                },
                 "token" : {
                   "type" : "string",
                   "example" : "d290f1ee.6c544b0190e6.d701748f0851"
@@ -265,13 +258,14 @@
             "schema" : {
               "type" : "object",
               "properties" : {
-                "status" : {
-                  "type" : "string",
-                  "enum" : [ "error" ]
-                },
                 "message" : {
                   "type" : "string",
                   "example" : "paramname is required"
+                },
+                "code" : {
+                  "minimum" : 1,
+                  "type" : "integer",
+                  "example" : 100
                 }
               }
             }
