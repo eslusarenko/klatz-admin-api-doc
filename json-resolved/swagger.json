@@ -1,0 +1,283 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Klatz Admin API",
+    "description" : "Klatz admin panel API specification and documentation.\nManaged via github.com repository\n",
+    "contact" : {
+      "name" : "Development team",
+      "email" : "dev.team@klatz.me"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://master.klatz.dph.to/admin/api",
+    "description" : "Master branch Develompent service"
+  }, {
+    "url" : "https://virtserver.swaggerhub.com/eslusarenko/KlatzAdmin/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "paths" : {
+    "/auth/credentials" : {
+      "post" : {
+        "summary" : "Authenticates user with login and password",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Wrong credentials",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh" : {
+      "post" : {
+        "summary" : "Issues new pair of auth and refresh tokens",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Token expired or wrong signature/authority",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/token" : {
+      "post" : {
+        "summary" : "Authenticate user by token, issued by trusted authority",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Token expired or wrong signature/authority",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "errorObject" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Something went wrong"
+          },
+          "code" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "example" : 100
+          }
+        }
+      },
+      "body" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_201" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "success" ]
+          },
+          "token" : {
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          },
+          "refresh" : {
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          }
+        }
+      },
+      "inline_response_400" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "error" ]
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "paramname is required"
+          }
+        }
+      },
+      "body_1" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          }
+        }
+      },
+      "body_2" : {
+        "type" : "object",
+        "properties" : {
+          "token" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "authSuccess" : {
+        "description" : "On successfull login/refresh",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "status" : {
+                  "type" : "string",
+                  "enum" : [ "success" ]
+                },
+                "token" : {
+                  "type" : "string",
+                  "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                },
+                "refresh" : {
+                  "type" : "string",
+                  "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameterRequired" : {
+        "description" : "Bad or missing input parameter",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "status" : {
+                  "type" : "string",
+                  "enum" : [ "error" ]
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "paramname is required"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
