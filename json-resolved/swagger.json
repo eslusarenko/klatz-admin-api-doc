@@ -22,7 +22,7 @@
         "summary" : "Authenticates user with login and password",
         "requestBody" : {
           "content" : {
-            "application/json" : {
+            "application/vnd.api+json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/body"
               }
@@ -101,7 +101,7 @@
           "403" : {
             "description" : "Token expired or wrong signature/authority",
             "content" : {
-              "application/json" : {
+              "application/vnd.api+json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/errorObject"
                 }
@@ -116,7 +116,7 @@
         "summary" : "Authenticate user by token, issued by trusted authority",
         "requestBody" : {
           "content" : {
-            "application/json" : {
+            "application/vnd.api+json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/body_2"
               }
