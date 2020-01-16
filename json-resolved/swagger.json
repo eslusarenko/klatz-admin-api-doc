@@ -214,6 +214,7 @@
         }
       },
       "body" : {
+        "required" : [ "password", "username" ],
         "type" : "object",
         "properties" : {
           "data" : {
@@ -242,6 +243,7 @@
         }
       },
       "body_1" : {
+        "required" : [ "token" ],
         "type" : "object",
         "properties" : {
           "data" : {
@@ -262,6 +264,7 @@
         }
       },
       "body_2" : {
+        "required" : [ "token" ],
         "type" : "object",
         "properties" : {
           "data" : {
