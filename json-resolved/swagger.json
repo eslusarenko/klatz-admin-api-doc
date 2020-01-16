@@ -189,6 +189,7 @@
         }
       },
       "errorObjects" : {
+        "required" : [ "errors" ],
         "type" : "object",
         "properties" : {
           "errors" : {
@@ -278,7 +279,6 @@
         }
       },
       "errorObject_source" : {
-        "required" : [ "pointer" ],
         "type" : "object",
         "properties" : {
           "pointer" : {
