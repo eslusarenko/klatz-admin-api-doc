@@ -103,7 +103,7 @@
             "content" : {
               "application/vnd.api+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorObject"
+                  "$ref" : "#/components/schemas/errorObjects"
                 }
               }
             }
@@ -150,7 +150,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorObject"
+                  "$ref" : "#/components/schemas/errorObjects"
                 }
               }
             }
@@ -162,6 +162,7 @@
   "components" : {
     "schemas" : {
       "errorObject" : {
+        "required" : [ "code", "title" ],
         "type" : "object",
         "properties" : {
           "id" : {
