@@ -44,9 +44,9 @@
           "400" : {
             "description" : "Bad or missing input parameter",
             "content" : {
-              "application/json" : {
+              "application/vnd.api+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_400"
+                  "$ref" : "#/components/schemas/errorObject"
                 }
               }
             }
@@ -56,7 +56,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/errorObject"
+                  "$ref" : "#/components/schemas/errorObjects"
                 }
               }
             }
@@ -91,9 +91,9 @@
           "400" : {
             "description" : "Bad or missing input parameter",
             "content" : {
-              "application/json" : {
+              "application/vnd.api+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_400"
+                  "$ref" : "#/components/schemas/errorObject"
                 }
               }
             }
@@ -138,9 +138,9 @@
           "400" : {
             "description" : "Bad or missing input parameter",
             "content" : {
-              "application/json" : {
+              "application/vnd.api+json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_400"
+                  "$ref" : "#/components/schemas/errorObject"
                 }
               }
             }
@@ -164,20 +164,47 @@
       "errorObject" : {
         "type" : "object",
         "properties" : {
-          "message" : {
+          "id" : {
             "type" : "string",
-            "example" : "Something went wrong"
+            "example" : "e5202c33-6ff6-3965-9c6c-0aa8534159be"
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/errorObject_source"
+          },
+          "status" : {
+            "maximum" : 599,
+            "minimum" : 400.0,
+            "type" : "integer",
+            "example" : 403
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Request is forbidden"
           },
           "code" : {
-            "minimum" : 1,
-            "type" : "integer",
-            "example" : 100
+            "type" : "string",
+            "example" : "65001"
           }
         }
       },
-      "body" : {
+      "errorObjects" : {
         "type" : "object",
         "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/errorObject"
+            }
+          }
+        }
+      },
+      "authcredentials_data" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "credentials"
+          },
           "username" : {
             "type" : "string"
           },
@@ -186,36 +213,49 @@
           }
         }
       },
-      "inline_response_201" : {
+      "body" : {
         "type" : "object",
         "properties" : {
-          "token" : {
-            "type" : "string",
-            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
-          },
-          "refresh" : {
-            "type" : "string",
-            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          "data" : {
+            "$ref" : "#/components/schemas/authcredentials_data"
           }
         }
       },
-      "inline_response_400" : {
+      "inline_response_201" : {
         "type" : "object",
         "properties" : {
-          "message" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_data"
+          }
+        }
+      },
+      "authrefresh_data" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
             "type" : "string",
-            "example" : "paramname is required"
+            "example" : "refresh"
           },
-          "code" : {
-            "minimum" : 1,
-            "type" : "integer",
-            "example" : 100
+          "token" : {
+            "type" : "string"
           }
         }
       },
       "body_1" : {
         "type" : "object",
         "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/authrefresh_data"
+          }
+        }
+      },
+      "authtoken_data" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "token"
+          },
           "token" : {
             "type" : "string"
           }
@@ -224,8 +264,34 @@
       "body_2" : {
         "type" : "object",
         "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/authtoken_data"
+          }
+        }
+      },
+      "errorObject_source" : {
+        "type" : "object",
+        "properties" : {
+          "pointer" : {
+            "type" : "string",
+            "example" : "/data/attributes/username"
+          }
+        }
+      },
+      "inline_response_201_data" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "credentials"
+          },
           "token" : {
-            "type" : "string"
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          },
+          "refresh" : {
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
           }
         }
       }
@@ -238,13 +304,22 @@
             "schema" : {
               "type" : "object",
               "properties" : {
-                "token" : {
-                  "type" : "string",
-                  "example" : "d290f1ee.6c544b0190e6.d701748f0851"
-                },
-                "refresh" : {
-                  "type" : "string",
-                  "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                "data" : {
+                  "type" : "object",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "example" : "credentials"
+                    },
+                    "token" : {
+                      "type" : "string",
+                      "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                    },
+                    "refresh" : {
+                      "type" : "string",
+                      "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                    }
+                  }
                 }
               }
             }
@@ -254,20 +329,9 @@
       "parameterRequired" : {
         "description" : "Bad or missing input parameter",
         "content" : {
-          "application/json" : {
+          "application/vnd.api+json" : {
             "schema" : {
-              "type" : "object",
-              "properties" : {
-                "message" : {
-                  "type" : "string",
-                  "example" : "paramname is required"
-                },
-                "code" : {
-                  "minimum" : 1,
-                  "type" : "integer",
-                  "example" : 100
-                }
-              }
+              "$ref" : "#/components/schemas/errorObject"
             }
           }
         }
