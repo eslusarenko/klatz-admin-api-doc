@@ -1,0 +1,353 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Klatz Admin API",
+    "description" : "Klatz admin panel API specification and documentation.\nJSON API specification can be found at https://jsonapi.org/format/\n",
+    "contact" : {
+      "name" : "Development team",
+      "email" : "dev.team@klatz.me"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://master.klatz.dph.to/admin/api",
+    "description" : "Master branch Develompent service"
+  }, {
+    "url" : "https://virtserver.swaggerhub.com/eslusarenko/KlatzAdmin/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "paths" : {
+    "/auth/credentials" : {
+      "post" : {
+        "summary" : "Authenticates user with login and password",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Wrong credentials",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObjects"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh" : {
+      "post" : {
+        "summary" : "Issues new pair of auth and refresh tokens",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Token expired or wrong signature/authority",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObjects"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/token" : {
+      "post" : {
+        "summary" : "Authenticate user by token, issued by trusted authority",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "On successfull login/refresh",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_201"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad or missing input parameter",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObject"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Token expired or wrong signature/authority",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errorObjects"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "errorObject" : {
+        "required" : [ "code", "title" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "example" : "e5202c33-6ff6-3965-9c6c-0aa8534159be"
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/errorObject_source"
+          },
+          "status" : {
+            "maximum" : 599,
+            "minimum" : 400.0,
+            "type" : "integer",
+            "example" : 403
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Request is forbidden"
+          },
+          "code" : {
+            "type" : "string",
+            "example" : "65001"
+          }
+        }
+      },
+      "errorObjects" : {
+        "required" : [ "errors" ],
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/errorObject"
+            }
+          }
+        }
+      },
+      "authcredentials_data" : {
+        "required" : [ "password", "username" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "credentials"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "body" : {
+        "required" : [ "data" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/authcredentials_data"
+          }
+        }
+      },
+      "inline_response_201" : {
+        "required" : [ "data" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/inline_response_201_data"
+          }
+        }
+      },
+      "authrefresh_data" : {
+        "required" : [ "token" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "refresh"
+          },
+          "token" : {
+            "type" : "string"
+          }
+        }
+      },
+      "body_1" : {
+        "required" : [ "data" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/authrefresh_data"
+          }
+        }
+      },
+      "authtoken_data" : {
+        "required" : [ "token" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "token"
+          },
+          "token" : {
+            "type" : "string"
+          }
+        }
+      },
+      "body_2" : {
+        "required" : [ "data" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/authtoken_data"
+          }
+        }
+      },
+      "errorObject_source" : {
+        "type" : "object",
+        "properties" : {
+          "pointer" : {
+            "type" : "string",
+            "example" : "/data/attributes/username"
+          }
+        }
+      },
+      "inline_response_201_data" : {
+        "required" : [ "refresh", "token" ],
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "credentials"
+          },
+          "token" : {
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          },
+          "refresh" : {
+            "type" : "string",
+            "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "authSuccess" : {
+        "description" : "On successfull login/refresh",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "required" : [ "data" ],
+              "type" : "object",
+              "properties" : {
+                "data" : {
+                  "required" : [ "refresh", "token" ],
+                  "type" : "object",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "example" : "credentials"
+                    },
+                    "token" : {
+                      "type" : "string",
+                      "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                    },
+                    "refresh" : {
+                      "type" : "string",
+                      "example" : "d290f1ee.6c544b0190e6.d701748f0851"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameterRequired" : {
+        "description" : "Bad or missing input parameter",
+        "content" : {
+          "application/vnd.api+json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/errorObject"
+            }
+          }
+        }
+      }
+    }
+  }
+}
