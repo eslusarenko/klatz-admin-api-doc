@@ -7,7 +7,7 @@
       "name" : "Development team",
       "email" : "dev.team@klatz.me"
     },
-    "version" : "1.0.0"
+    "version": "1.0.0"
   },
   "servers" : [ {
     "url" : "https://master.klatz.dph.to/admin/api",
@@ -28,15 +28,15 @@
               }
             }
           },
-          "required" : true
+          "required": true
         },
-        "responses" : {
-          "201" : {
-            "description" : "On successfull login/refresh",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_201"
+        "responses": {
+          "201": {
+            "description": "On successfull login/refresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
                 }
               }
             }
@@ -64,26 +64,26 @@
         }
       }
     },
-    "/auth/refresh" : {
-      "post" : {
-        "summary" : "Issues new pair of auth and refresh tokens",
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/body_1"
+    "/auth/refresh": {
+      "post": {
+        "summary": "Issues new pair of auth and refresh tokens",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
               }
             }
           },
-          "required" : true
+          "required": true
         },
-        "responses" : {
-          "201" : {
-            "description" : "On successfull login/refresh",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_201"
+        "responses": {
+          "201": {
+            "description": "On successfull login/refresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
                 }
               }
             }
@@ -122,15 +122,15 @@
               }
             }
           },
-          "required" : true
+          "required": true
         },
-        "responses" : {
-          "201" : {
-            "description" : "On successfull login/refresh",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_201"
+        "responses": {
+          "201": {
+            "description": "On successfull login/refresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_201"
                 }
               }
             }
@@ -211,8 +211,8 @@
           "username" : {
             "type" : "string"
           },
-          "password" : {
-            "type" : "string"
+          "password": {
+            "type": "string"
           }
         }
       },
